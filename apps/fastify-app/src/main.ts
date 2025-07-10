@@ -1,4 +1,9 @@
-import { Appsignal, sendError } from '@appsignal/nodejs';
+import {
+  Appsignal,
+  sendError,
+  // setError,
+  setSessionData
+ } from '@appsignal/nodejs';
 import Fastify from 'fastify';
 import { app } from './app/app';
 import { logger } from './app/logger';
@@ -11,20 +16,27 @@ const server = Fastify({
   loggerInstance: logger,
 });
 
-// Register your application as a normal plugin.
-server.register(app);
-
 // Register custom error handler
 server.setErrorHandler((error, request, reply) => {
   server.log.error(error);
 
   // Report error to Appsignal
-  sendError(error);
+  // setError(error); // <-- will not work if a preHandler hook is registered
+  sendError(error, () => setSessionData({
+    'reporter': 'sendError'
+  }));
 
   // Send a generic error response
   reply.status(500).send({
     error: 'Internal Server Error',
   });
+});
+
+// Register your application as a normal plugin.
+server.register(app);
+
+server.addHook('preHandler', async (request) => {
+  request.log.debug('Adding a preHandler hook');
 });
 
 // Start listening.
