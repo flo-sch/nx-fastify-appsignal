@@ -3,9 +3,23 @@
   "description": "reproduction project for appsignal instrumentation with fastify",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "nx run-many --all --target build",
+    "lint": "nx run-many --all --target lint",
+    "start": "nx serve fastify-app",
+    "test": "nx run-many --all --target test",
+    "typecheck": "nx run-many --all --targets typecheck"
+  },
   "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad",
   "private": true,
+  "dependencies": {
+    "@appsignal/nodejs": "^3.6.7",
+    "@fastify/autoload": "^6.3.1",
+    "@fastify/sensible": "^6.0.3",
+    "fastify": "^5.4.0",
+    "fastify-plugin": "^5.0.1",
+    "pino": "^9.7.0"
+  },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
     "@nx/esbuild": "21.2.2",
@@ -36,11 +50,5 @@
   "workspaces": [
     "apps/*",
     "libs/*"
-  ],
-  "dependencies": {
-    "@fastify/autoload": "~6.0.3",
-    "@fastify/sensible": "~6.0.2",
-    "fastify": "~5.2.1",
-    "fastify-plugin": "~5.0.1"
-  }
+  ]
 }

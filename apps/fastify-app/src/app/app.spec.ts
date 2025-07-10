@@ -15,6 +15,20 @@ describe('GET /', () => {
       url: '/',
     });
 
+    expect(response.statusCode).toEqual(200);
     expect(response.json()).toEqual({ message: 'Hello API' });
+  });
+
+  it('should respond with an error', async () => {
+    const response = await server.inject({
+      method: 'GET',
+      url: '/?error=true',
+    });
+
+    expect(response.statusCode).toEqual(500);
+    expect(response.json()).toMatchObject({
+      error: expect.any(String),
+      message: expect.stringContaining('test error'),
+    });
   });
 });

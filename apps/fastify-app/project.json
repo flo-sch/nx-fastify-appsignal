@@ -16,7 +16,10 @@
         "bundle": false,
         "main": "apps/fastify-app/src/main.ts",
         "tsConfig": "apps/fastify-app/tsconfig.app.json",
-        "assets": ["apps/fastify-app/src/assets"],
+        "assets": [
+          "apps/fastify-app/appsignal.cjs",
+          "apps/fastify-app/src/assets"
+        ],
         "esbuildOptions": {
           "sourcemap": true,
           "outExtension": {
@@ -43,6 +46,10 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "fastify-app:build",
+        "runtimeArgs": [
+          "--enable-source-maps",
+          "--require=./apps/fastify-app/dist/appsignal.cjs"
+        ],
         "runBuildTargetDependencies": false
       },
       "configurations": {
